@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Radish WebP
+ * Plugin Name: WebP for Woocommerce
  * Version: 1.0
  * Plugin URI: https://www.radishconcepts.com/radish-webp
- * Description: Replaces normal images with webp format
+ * Description: Replaces normal images with WebP format
  * Author: Radish Concepts
  * Author URI: https://www.radishconcepts.com
- * Text Domain: radish-webp
+ * Text Domain: webp-for-woocommerce
  * Domain Path: /languages/
  * License: GPL v3
  *

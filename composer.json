@@ -1,6 +1,6 @@
 {
-    "name": "Radish/webp",
-    "description": "Replaces normal images by webp",
+    "name": "radishconcepts/webp-for-woocommerce",
+    "description": "Replaces normal images by WebP",
     "type": "wordpress-plugin",
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4",

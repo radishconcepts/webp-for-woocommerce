@@ -1,4 +1,4 @@
-## Radish WebP
+## Radish WebP for Woocommerce
 Replaces normal images by WebP format.
 
 **The plugin does not generate WebP images. It assumes you have already generated these with a plugin like [Optimus](https://wordpress.org/plugins/optimus/).**
