@@ -1,0 +1,14 @@
+{
+  "name": "radish-webp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gulpfile.js",
+  "author": "Author",
+  "license": "GPL v3",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-fs": "0.0.2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Radish/webp",
+    "description": "Replaces normal images by webp",
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.4",
+        "wp-coding-standards/wpcs": "^1.2"
+    },
+    "authors": [
+        {
+            "name": "Radish Concepts",
+            "email": "info@radishconcepts.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "classes/"
+        ]
+    }
+}
