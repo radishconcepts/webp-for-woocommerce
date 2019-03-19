@@ -7,19 +7,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // If the image gets within 50px in the Y axis, start the download.
     rootMargin: '50px 0px',
     threshold: 0.01
-  }; // The observer for the images on the page
+  };
 
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      // Are we in viewport?
-      if (entry.intersectionRatio > 0) {
-        // Stop watching and load the image
-        observer.unobserve(entry.target);
-        entry.target.querySelector('.remove-image').parentNode.removeChild(entry.target.querySelector('.remove-image'));
-      }
+  if (!('IntersectionObserver' in window)) {
+    // Show images for browsers that don't support IntersectionObserver
+    Array.from(images).forEach(function (image) {
+      image.querySelector('.remove-image').parentNode.removeChild(image.querySelector('.remove-image'));
     });
-  }, config);
-  images.forEach(function (image) {
-    observer.observe(image);
-  });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        // Are we in viewport?
+        if (entry.intersectionRatio > 0) {
+          // Stop watching and load the image
+          observer.unobserve(entry.target);
+          entry.target.querySelector('.remove-image').parentNode.removeChild(entry.target.querySelector('.remove-image'));
+        }
+      });
+    }, config);
+    images.forEach(function (image) {
+      observer.observe(image);
+    });
+  }
 });
