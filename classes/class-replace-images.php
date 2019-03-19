@@ -66,7 +66,7 @@ class Replace_Images {
 	 *
 	 * @return string Newly generated HTML.
 	 */
-	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '' ) {
+	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '', $hide_image = true ) {
 
 		$srcset     = wp_get_attachment_image_srcset( $id, $size );
 		$alt        = get_post_meta( $id, '_wp_attachment_image_alt', true );
@@ -75,7 +75,9 @@ class Replace_Images {
 		$classes .= ' webp-image ';
 
 		$output = '<picture class="' . $classes . '">';
-		$output .= '<source class="remove-image" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" type="image/jpeg" media="(min-width: 800px)">';
+		if ($hide_image) {
+			$output .= '<source class="remove-image" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" type="image/jpeg" media="(min-width: 800px)">';
+		}
 		if ( ! empty( $srcset ) ) {
 			$output .= '<source srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
@@ -171,7 +173,7 @@ class Replace_Images {
 			)
 		);
 
-		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image' ) . '</a></div>';
+		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image', false ) . '</a></div>';
 
 		return $html;
 
