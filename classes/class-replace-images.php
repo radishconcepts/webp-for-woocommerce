@@ -75,7 +75,7 @@ class Replace_Images {
 		$classes .= ' webp-image ';
 
 		$output = '<picture class="' . $classes . '">';
-		$output .= '<source class="remove-image" srcset="none.jpg" type="image/jpeg" media="(min-width: 800px)">';
+		$output .= '<source class="remove-image" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" type="image/jpeg" media="(min-width: 800px)">';
 		if ( ! empty( $srcset ) ) {
 			$output .= '<source srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
