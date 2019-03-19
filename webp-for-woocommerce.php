@@ -38,10 +38,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define('WebP_for_WC_URL', plugin_dir_url(__FILE__));
+
 /**
  * Require all files with composer.
  */
-
 $autoload_file = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 if ( is_readable( $autoload_file ) ) {
@@ -49,3 +50,4 @@ if ( is_readable( $autoload_file ) ) {
 }
 
 new Radish_WebP\Replace_Images();
+new Radish_WebP\Enqueue_Scripts();

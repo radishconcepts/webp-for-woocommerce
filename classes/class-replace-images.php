@@ -72,7 +72,10 @@ class Replace_Images {
 		$alt        = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$main_image = false;
 
+		$classes .= ' webp-image ';
+
 		$output = '<picture class="' . $classes . '">';
+		$output .= '<source class="remove-image" srcset="none.jpg" type="image/jpeg" media="(min-width: 800px)">';
 		if ( ! empty( $srcset ) ) {
 			$output .= '<source srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
