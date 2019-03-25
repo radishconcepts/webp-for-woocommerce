@@ -1,5 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    ll = new LazyLoad({
-        elements_selector: ".lazy",
-    });
+var lazyLoadInstance = new LazyLoad({
+    elements_selector: ".lazy",
 });
