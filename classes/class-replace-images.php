@@ -50,7 +50,7 @@ class Replace_Images {
 
 		add_filter( 'image_send_to_editor', array( $this, 'insert_webp_into_post_content' ), 50, 8 );
 
-		add_action( 'admin_menu', array( $this, 'add_admin_submenu_page' ) );
+		//add_action( 'admin_menu', array( $this, 'add_admin_submenu_page' ) );
 	}
 
 	/**
@@ -66,49 +66,52 @@ class Replace_Images {
 	 *
 	 * @return string Newly generated HTML.
 	 */
-	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '', $hide_image = true ) {
+	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '', $main_image = false) {
 
 		$srcset     = wp_get_attachment_image_srcset( $id, $size );
 		$alt        = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$main_image = false;
 
-		$classes .= ' webp-image ';
+		$classes .= ' webp-image';
 
-		$output = '<picture class="' . $classes . '">';
-		if ($hide_image) {
-			$output .= '<source class="remove-image" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" type="image/jpeg" media="(min-width: 800px)">';
+		if (!$main_image) {
+			$classes .= ' lazy';
 		}
+
+		$output = '<picture>';
 		if ( ! empty( $srcset ) ) {
-			$output .= '<source srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
+			$output .= '<source class="' . $classes . '" data-srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
-			$output .= '<source src="' . $webp . '" type="image/webp" alt="' . $alt . '">';
+			$output .= '<source class="' . $classes . '" data-src="' . $webp . '" type="image/webp" alt="' . $alt . '">';
 		}
-		$output .= '<source src="' . $default . '" type="image/jpeg" alt="' . $alt . '">';
+		$output .= '<img class="' . $classes . '" data-src="' . $default . '" alt="' . $alt . '"/>';
 
 		$full_size = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
 		$full_src  = wp_get_attachment_image_src( $id, $full_size );
 
 		// Rebuild the image element so it can integrate with photoswipe.
-		$output .= wp_get_attachment_image(
-			$id,
-			$size,
-			false,
-			apply_filters(
-				'woocommerce_gallery_image_html_attachment_image_params',
-				array(
-					'title'                   => _wp_specialchars( get_post_field( 'post_title', $id ), ENT_QUOTES, 'UTF-8', true ),
-					'data-caption'            => _wp_specialchars( get_post_field( 'post_excerpt', $id ), ENT_QUOTES, 'UTF-8', true ),
-					'data-src'                => esc_url( $full_src[0] ),
-					'data-large_image'        => esc_url( $full_src[0] ),
-					'data-large_image_width'  => esc_attr( $full_src[1] ),
-					'data-large_image_height' => esc_attr( $full_src[2] ),
-					'class'                   => esc_attr( $main_image ? 'wp-post-image' : '' ),
-				),
+		if ($main_image) {
+			$output .= wp_get_attachment_image(
 				$id,
 				$size,
-				$main_image
-			)
-		);
+				false,
+				apply_filters(
+					'woocommerce_gallery_image_html_attachment_image_params',
+					array(
+						'title'                   => _wp_specialchars( get_post_field( 'post_title', $id ), ENT_QUOTES, 'UTF-8', true ),
+						'data-caption'            => _wp_specialchars( get_post_field( 'post_excerpt', $id ), ENT_QUOTES, 'UTF-8', true ),
+						'data-src'                => esc_url( $full_src[0] ),
+						'data-large_image'        => esc_url( $full_src[0] ),
+						'data-large_image_width'  => esc_attr( $full_src[1] ),
+						'data-large_image_height' => esc_attr( $full_src[2] ),
+						'class'                   => esc_attr( $main_image ? 'wp-post-image' : '' ),
+					),
+					$id,
+					$size,
+					$main_image
+				)
+			);
+		}
 		$output .= '</picture>';
 
 		return $output;
@@ -173,7 +176,7 @@ class Replace_Images {
 			)
 		);
 
-		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image', false ) . '</a></div>';
+		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image', true ) . '</a></div>';
 
 		return $html;
 
