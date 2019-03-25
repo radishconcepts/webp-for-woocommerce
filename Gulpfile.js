@@ -23,10 +23,7 @@ gulp.task('init', gulp.series(['create-hooks-symlink']));
 
 /* Scripts task */
 gulp.task('scripts', function () {
-    return gulp.src('_source/js/*.js')
-        .pipe(babel({
-            presets: ['@babel/env']
-        }))
+    return gulp.src(['node_modules/vanilla-lazyload/dist/lazyload.min.js', '_source/js/*.js'])
         .pipe(concat('webp-for-woocommerce.js'))
         .pipe(gulp.dest('./assets/js/'))
         .pipe(rename({suffix: '.min'}))
