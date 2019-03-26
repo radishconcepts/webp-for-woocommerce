@@ -39,7 +39,7 @@ class Replace_Images {
 
 		if( ! is_admin() ) {
 			add_filter( 'woocommerce_product_get_image', array( $this, 'replace_woocommerce_image' ), 10, 3 );
-			add_filter( 'wp_get_attachment_image_attributes', array( $this, 'replace_content_images' ) );
+			add_filter( 'wp_get_attachment_image_attributes', array( $this, 'replace_content_images' ), 10, 2  );
 			add_filter( 'woocommerce_single_product_image_thumbnail_html', array( $this, 'product_gallery_main_image' ), 10, 2 );
 		}
 
@@ -159,7 +159,7 @@ class Replace_Images {
 		unset( $attr['srcset'] );
 
 		return $attr;
-	}, 10, 2 );
+	}
 
 	/**
 	 *
