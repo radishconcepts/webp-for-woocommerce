@@ -36,7 +36,7 @@ class Enqueue_Scripts {
 	 * @since 1.0
 	 */
 	public function init() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 50 );
 	}
 
 	/**

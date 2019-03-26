@@ -39,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define('WebP_for_WC_URL', plugin_dir_url(__FILE__));
-define('WebP_for_WC_VERSION', '1.0.1');
+define('WebP_for_WC_VERSION', '1.0.2');
 
 /**
  * Require all files with composer.
