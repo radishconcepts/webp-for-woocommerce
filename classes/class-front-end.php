@@ -44,6 +44,6 @@ class Enqueue_Scripts {
 	 */
 	public function enqueue_scripts() {
 		//wp_enqueue_style( 'webp-for-woocommerce', WebP_for_WC_URL . 'assets/css/webp-for-woocommerce.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'css', array() );
-		wp_enqueue_script( 'webp-for-woocommerce', WebP_for_WC_URL . 'assets/js/webp-for-woocommerce.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array() );
+		wp_enqueue_script( 'webp-for-woocommerce', WebP_for_WC_URL . 'assets/js/webp-for-woocommerce.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array(), WebP_for_WC_VERSION, true );
 	}
 }
