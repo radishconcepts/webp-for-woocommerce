@@ -4,5 +4,8 @@ function _extends(){return(_extends=Object.assign||function(t){for(var e=1;e<arg
 jQuery(document).ready(function() {
     var lazyLoadInstance = new LazyLoad({
         elements_selector: ".lazy",
+        callback_loaded: function() {
+            vinhoEqualHeights();
+        }
     });
 });
