@@ -36,17 +36,11 @@ class Replace_Images {
 	 * @since 1.0
 	 */
 	public function init() {
-		add_filter( 'woocommerce_product_get_image', array( $this, 'replace_woocommerce_image' ), 10, 3 );
 
-		add_filter(
-			'woocommerce_single_product_image_thumbnail_html',
-			array(
-				$this,
-				'product_gallery_main_image',
-			),
-			10,
-			2
-		);
+		if( ! is_admin() ) {
+			add_filter( 'woocommerce_product_get_image', array( $this, 'replace_woocommerce_image' ), 10, 3 );
+			add_filter( 'woocommerce_single_product_image_thumbnail_html', array( $this, 'product_gallery_main_image' ), 10, 2 );
+		}
 
 		add_filter( 'image_send_to_editor', array( $this, 'insert_webp_into_post_content' ), 50, 8 );
 
