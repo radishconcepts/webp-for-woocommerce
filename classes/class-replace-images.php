@@ -43,8 +43,6 @@ class Replace_Images {
 			add_filter( 'woocommerce_single_product_image_thumbnail_html', array( $this, 'product_gallery_main_image' ), 10, 2 );
 		}
 
-		add_filter( 'image_send_to_editor', array( $this, 'insert_webp_into_post_content' ), 50, 8 );
-
 		//add_action( 'admin_menu', array( $this, 'add_admin_submenu_page' ) );
 	}
 
