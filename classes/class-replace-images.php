@@ -76,7 +76,7 @@ class Replace_Images {
 		if ( ! empty( $srcset ) ) {
 			$output .= '<source class="' . $classes . '" data-srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
-			$output .= '<source class="' . $classes . '" data-src="' . $webp . '" type="image/webp" alt="' . $alt . '">';
+			$output .= '<source class="' . $classes . '" data-srcset="' . $webp . '" type="image/webp" alt="' . $alt . '">';
 		}
 
 		$full_size = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
