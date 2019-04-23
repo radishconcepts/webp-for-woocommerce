@@ -150,9 +150,12 @@ class Replace_Images {
 	}
 
 	public function replace_content_images( $attr, $attachment ) {
+
 		$attr['class'] .= ' lazy ';
 		$attr['data-src'] = $attr['src'];
-		$attr['data-srcset'] = $attr['srcset'];
+		if (isset($attr['srcset'])) {
+			$attr['data-srcset'] = $attr['srcset'];
+		}
 		unset( $attr['src'] );
 		unset( $attr['srcset'] );
 
@@ -170,14 +173,11 @@ class Replace_Images {
 	 */
 	public function product_gallery_main_image( $html, $id ) {
 
-		$gallery_thumbnail = wc_get_image_size( 'gallery_thumbnail' );
 		$images            = $this->get_images(
 			$id,
-			array(
-				$gallery_thumbnail['width'],
-				$gallery_thumbnail['height'],
-			)
+			'gallery_thumbnail'
 		);
+
 
 		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image', true ) . '</a></div>';
 
