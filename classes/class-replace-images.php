@@ -37,13 +37,14 @@ class Replace_Images {
 	 */
 	public function init() {
 
-		if( ! is_admin() ) {
+		if ( ! is_admin() ) {
 			add_filter( 'woocommerce_product_get_image', array( $this, 'replace_woocommerce_image' ), 10, 3 );
-			add_filter( 'wp_get_attachment_image_attributes', array( $this, 'replace_content_images' ), 10, 2  );
-			add_filter( 'woocommerce_single_product_image_thumbnail_html', array( $this, 'product_gallery_main_image' ), 10, 2 );
+			add_filter( 'wp_get_attachment_image_attributes', array( $this, 'replace_content_images' ), 10, 2 );
+			add_filter( 'woocommerce_single_product_image_thumbnail_html', array(
+				$this,
+				'product_gallery_main_image'
+			), 10, 2 );
 		}
-
-		//add_action( 'admin_menu', array( $this, 'add_admin_submenu_page' ) );
 	}
 
 	/**
@@ -53,21 +54,21 @@ class Replace_Images {
 	 * @param string $webp Path to the webp file.
 	 * @param string $default Path to the default file.
 	 * @param string $extension The extension of the file.
-	 * @param int    $id Attachment ID.
+	 * @param int $id Attachment ID.
 	 * @param string $size Image size.
 	 * @param string $classes Classes for the html element.
+	 * @param boolean $main_image Is main image?
 	 *
 	 * @return string Newly generated HTML.
 	 */
-	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '', $main_image = false) {
+	public function get_webp_html( $webp, $default, $extension, $id, $size, $classes = '', $main_image = false ) {
 
-		$srcset     = wp_get_attachment_image_srcset( $id, $size );
-		$alt        = get_post_meta( $id, '_wp_attachment_image_alt', true );
-		$main_image = false;
+		$srcset = wp_get_attachment_image_srcset( $id, $size );
+		$alt    = get_post_meta( $id, '_wp_attachment_image_alt', true );
 
 		$classes .= ' webp-image';
 
-		if (!$main_image) {
+		if ( ! $main_image ) {
 			$classes .= ' lazy';
 		}
 
@@ -77,14 +78,13 @@ class Replace_Images {
 		} else {
 			$output .= '<source class="' . $classes . '" data-src="' . $webp . '" type="image/webp" alt="' . $alt . '">';
 		}
-		$output .= '<img class="' . $classes . '" data-src="' . $default . '" alt="' . $alt . '"/>';
 
 		$full_size = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
 		$full_src  = wp_get_attachment_image_src( $id, $full_size );
 
 		// Rebuild the image element so it can integrate with photoswipe.
-		if ($main_image) {
-			$output .= wp_get_attachment_image(
+		if ( $main_image ) {
+			$output = wp_get_attachment_image(
 				$id,
 				$size,
 				false,
@@ -104,6 +104,8 @@ class Replace_Images {
 					$main_image
 				)
 			);
+		} else {
+			$output .= '<img class="' . $classes . '" data-src="' . $default . '" alt="' . $alt . '"/>';
 		}
 		$output .= '</picture>';
 
@@ -114,7 +116,7 @@ class Replace_Images {
 	 *
 	 * Get the webp and original image
 	 *
-	 * @param int    $id ID of the attachment image.
+	 * @param int $id ID of the attachment image.
 	 * @param string $size Size of the image.
 	 *
 	 * @return object Object with paths and extension.
@@ -151,9 +153,9 @@ class Replace_Images {
 
 	public function replace_content_images( $attr, $attachment ) {
 
-		$attr['class'] .= ' lazy ';
+		$attr['class']    .= ' lazy ';
 		$attr['data-src'] = $attr['src'];
-		if (isset($attr['srcset'])) {
+		if ( isset( $attr['srcset'] ) ) {
 			$attr['data-srcset'] = $attr['srcset'];
 		}
 		unset( $attr['src'] );
@@ -167,17 +169,16 @@ class Replace_Images {
 	 * Replaces the product detail image
 	 *
 	 * @param string $html Original HTML.
-	 * @param int    $id Attachment ID.
+	 * @param int $id Attachment ID.
 	 *
 	 * @return string Newly generated HTML.
 	 */
 	public function product_gallery_main_image( $html, $id ) {
 
-		$images            = $this->get_images(
+		$images = $this->get_images(
 			$id,
 			'gallery_thumbnail'
 		);
-
 
 		$html = '<div data-thumb="' . esc_url( $images->default ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $images->webp ) . '">' . $this->get_webp_html( $images->webp, $images->default, $images->extension, $id, 'woocommerce_single', 'wp-post-image', true ) . '</a></div>';
 
