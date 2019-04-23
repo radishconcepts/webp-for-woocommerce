@@ -84,7 +84,7 @@ class Replace_Images {
 
 		// Rebuild the image element so it can integrate with photoswipe.
 		if ( $main_image ) {
-			$output = wp_get_attachment_image(
+			$output .= wp_get_attachment_image(
 				$id,
 				$size,
 				false,
