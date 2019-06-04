@@ -125,12 +125,19 @@ class Replace_Images {
 		$alt_image     = wp_get_attachment_image_src( $id, $size, false );
 		$alt_image_src = $alt_image[0];
 		$path          = pathinfo( $alt_image_src );
-		$webp          = str_replace( $path['extension'], 'webp', $alt_image_src );
+
+		$webp      = '';
+		$extension = '';
+
+		if ( ! empty( $path['filename'] ) && isset($path['extension']) ) {
+			$webp      = str_replace( $path['extension'], 'webp', $alt_image_src );
+			$extension = $path['extension'];
+		}
 
 		return (object) array(
 			'webp'      => $webp,
 			'default'   => $alt_image_src,
-			'extension' => $path['extension'],
+			'extension' => $extension,
 		);
 	}
 
