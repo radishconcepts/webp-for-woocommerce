@@ -76,13 +76,16 @@ class Replace_Images {
 		if ( ! empty( $srcset ) ) {
 			$output .= '<source class="' . $classes . '" data-srcset="' . str_replace( $extension, 'webp', $srcset ) . '" alt="' . $alt . '" type="image/webp">';
 		} else {
-			$output .= '<source class="' . $classes . '" data-srcset="' . $webp . '" type="image/webp" alt="' . $alt . '">';
+			$output .= '<source class="' . $classes . '" data-src="' . $webp . '" type="image/webp" alt="' . $alt . '">';
 		}
 
 		$full_size = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
 		$full_src  = wp_get_attachment_image_src( $id, $full_size );
 
 		// Rebuild the image element so it can integrate with photoswipe.
+
+		$title = _wp_specialchars( get_post_field( 'post_title', $id ), ENT_QUOTES, 'UTF-8', true );
+
 		if ( $main_image ) {
 			$output .= wp_get_attachment_image(
 				$id,
@@ -91,13 +94,14 @@ class Replace_Images {
 				apply_filters(
 					'woocommerce_gallery_image_html_attachment_image_params',
 					array(
-						'title'                   => _wp_specialchars( get_post_field( 'post_title', $id ), ENT_QUOTES, 'UTF-8', true ),
+						'title'                   => $title,
 						'data-caption'            => _wp_specialchars( get_post_field( 'post_excerpt', $id ), ENT_QUOTES, 'UTF-8', true ),
 						'data-src'                => esc_url( $full_src[0] ),
 						'data-large_image'        => esc_url( $full_src[0] ),
 						'data-large_image_width'  => esc_attr( $full_src[1] ),
 						'data-large_image_height' => esc_attr( $full_src[2] ),
 						'class'                   => esc_attr( $main_image ? 'wp-post-image' : '' ),
+						'alt'                     => ( ! empty( $alt ) ? $alt : $title )
 					),
 					$id,
 					$size,
@@ -129,7 +133,7 @@ class Replace_Images {
 		$webp      = '';
 		$extension = '';
 
-		if ( ! empty( $path['filename'] ) && isset($path['extension']) ) {
+		if ( ! empty( $path['filename'] ) && isset( $path['extension'] ) ) {
 			$webp      = str_replace( $path['extension'], 'webp', $alt_image_src );
 			$extension = $path['extension'];
 		}
